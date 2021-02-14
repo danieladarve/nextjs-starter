@@ -1,7 +1,18 @@
-import Head from 'next/head'
+import { useRouter } from 'next/router';
+import Head from 'next/head';
+import ErrorPage from 'next/error';
 import styles from '../styles/Home.module.css'
+import { getHome } from "../lib/home";
 
-export default function Home() {
+export default function Home({ entry }) {
+  console.log(entry);
+  const router = useRouter();
+  // if (!router.isFallback && !page?.slug) {
+  //   return <ErrorPage statusCode={404} />;
+  // }
+
+
+
   return (
     <div className={styles.container}>
       <Head>
@@ -62,4 +73,14 @@ export default function Home() {
       </footer>
     </div>
   )
+}
+
+export async function getStaticProps(context) {
+  const entry = await getHome();
+
+  return {
+    props: {
+      entry,
+    },
+  };
 }
